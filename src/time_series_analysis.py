@@ -16,14 +16,6 @@ class TimeSeriesAnalysis(FinancialNewsAnalysis):
     - data_path (str): The path to the dataset CSV file.
     - data (DataFrame): The DataFrame containing the financial news data.
     """
-    def __init__(self, data_path):
-        """
-        Initialize the TimeSeriesAnalysis class.
-
-        Args:
-        - data_path (str): The path to the dataset CSV file.
-        """
-        super().__init__(data_path)
 
     def publication_frequency_over_time(self):
         """

@@ -12,6 +12,19 @@ import src
 
 MODULE_DOC = src.publisher_analysis.__doc__
 
+def check_docstring(func):
+    """
+    Ensures the provided function has a docstring.
+
+    Args:
+        func: The function to check.
+
+    Raises:
+        AssertionError: If the function doesn't have a docstring.
+    """
+    assert func.__doc__ is not None, f"{func[0]} method needs a docstring"
+    assert len(func.__doc__) > 1, f"{func[0]} method needs a docstring"
+
 
 class TestPublisherAnalysisDocs(unittest.TestCase):
     """
@@ -51,15 +64,7 @@ class TestPublisherAnalysisDocs(unittest.TestCase):
         """
         for func in self.base_funcs:
             with self.subTest(function=func):
-                self.assertIsNot(
-                    func[1].__doc__,
-                    None,
-                    f"{func[0]} method needs a docstring"
-                )
-                self.assertTrue(
-                    len(func[1].__doc__) > 1,
-                    f"{func[0]} method needs a docstring"
-                )
+                check_docstring(func[1])
 
 
 class TestPublisherAnalysis(unittest.TestCase):
