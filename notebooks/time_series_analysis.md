@@ -1,0 +1,12 @@
+Compiled findings from the `Time Series Analysis`
+
+1. **Publication Frequency Over Time**:
+   The analysis of publication frequency over time reveals how the number of articles published each day fluctuates. This information is crucial for understanding the volume of news coverage on specific days and identifying trends or patterns in the data. The data shows that there are varying levels of news activity throughout the years, with some periods experiencing higher publication frequency than others. This analysis can help traders and investors gauge the level of news coverage during different market conditions and potentially correlate it with stock price movements or other market events.
+
+2. **Publication Times Analysis**:
+   The analysis of publication times provides insights into the timing of news releases throughout the day. By examining the distribution of article publications by hour, we can identify when most news is released. The data shows that the majority of articles are published during the early morning hours (between 6 AM and 10 AM UTC-4), with a peak around 10 AM. This information can be valuable for traders and automated trading systems, as it indicates the times when news is most likely to impact market activity. Understanding these patterns can help traders make informed decisions about when to buy or sell stocks based on the latest news developments.
+
+3. **Article Spikes Analysis**:
+   The analysis of article spikes focuses on identifying days with significantly higher publication frequency than usual. Notably, on specific dates such as `2020-03-12`, `2020-03-19`, `2020-05-07`, and `2020-06-10`, there were exceptionally high spikes in article publications. These spikes often coincide with major market events or news events that have a significant impact on stock prices. By identifying these spikes, traders can pinpoint key dates when news coverage was particularly intense, suggesting important market developments. This information can be used to analyze the relationship between news coverage and stock price movements, providing valuable insights into market dynamics.
+
+In conclusion, the `Time Series Analysis` methods provide valuable insights into the patterns and trends of news coverage related to stock market events. By analyzing publication frequency over time, publication times, and identifying article spikes, traders and investors can gain a better understanding of how news influences market activity and make more informed trading decisions.
