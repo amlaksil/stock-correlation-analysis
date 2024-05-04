@@ -65,6 +65,30 @@ class TestFinancialNewsAnalysisDocs(unittest.TestCase):
                 )
 
 
+sample_data = pd.DataFrame({
+    'headline': [
+        'Stocks That Hit 52-Week Highs On Friday',
+        'Stocks That Hit 52-Week Highs On Wednesday',
+        '71 Biggest Movers From Friday'],
+    'url': [
+        'https://www.benzinga.com/news/20/06/16190091/' +
+        'stocks-that-hit-52-week-highs-on-friday',
+        'https://www.benzinga.com/news/20/06/16170189/' +
+        'stocks-that-hit-52-week-highs-on-wednesday',
+        'https://www.benzinga.com/news/20/05/16103463/' +
+        '71-biggest-movers-from-friday'],
+    'publisher': [
+        'Benzinga Insights',
+        'Benzinga Insights',
+        'Lisa Levin'],
+    'date': [
+        '2020-06-05 10:30:54-04:00',
+        '2020-06-03 10:45:20-04:00',
+        '2020-05-26 04:30:07-04:00'],
+    'stock': ['A', 'A', 'A']
+})
+
+
 class TestFinancialNewsAnalysis(unittest.TestCase):
     """Unit tests for FinancialNewsAnalysis class"""
     def setUp(self):
@@ -76,13 +100,6 @@ class TestFinancialNewsAnalysis(unittest.TestCase):
     def test_initialization(self, mock_read_csv):
         """Test initialization of FinancialNewsAnalysis"""
         # Mock the pd.read_csv function to return a sample DataFrame
-        sample_data = pd.DataFrame({
-            'headline': ['headline1', 'headline2', 'headline3'],
-            'url': ['url1', 'url2', 'url3'],
-            'publisher': ['publisher1', 'publisher2', 'publisher3'],
-            'date': ['2022-01-01', '2022-01-02', '2022-01-03'],
-            'stock': ['AAPL', 'GOOGL', 'AMZN']
-        })
         mock_read_csv.return_value = sample_data
         financial_news_analysis = FinancialNewsAnalysis(self.data_path)
 
@@ -96,21 +113,55 @@ class TestFinancialNewsAnalysis(unittest.TestCase):
 
     def test_descriptive_statistics(self):
         """Test descriptive_statistics method"""
-        headline_stats, publisher_counts, _ = \
+        headline_stats, publisher_counts, date_counts = \
             self.financial_news_analysis.descriptive_statistics()
 
         # Check headline_stats
-        self.assertAlmostEqual(round(headline_stats['mean'], 2), 73.12)
-        self.assertAlmostEqual(round(headline_stats['std'], 2), 40.74)
-        self.assertEqual(headline_stats['min'], 3)
-        self.assertEqual(int(headline_stats['max']), 512)
+        self.assertAlmostEqual(int(headline_stats['count']), 100)
+        self.assertAlmostEqual(round(headline_stats['mean'], 2), 95.05)
+        self.assertAlmostEqual(round(headline_stats['std'], 2), 64.45)
+        self.assertEqual(headline_stats['min'], 29)
+        self.assertEqual(int(headline_stats['max']), 304)
 
         # Check publisher_counts
-        self.assertEqual(publisher_counts['Paul Quintaro'], 228373)
-        self.assertEqual(publisher_counts['Lisa Levin'], 186979)
-        self.assertEqual(publisher_counts['Benzinga Newsdesk'], 150484)
-        self.assertEqual(publisher_counts['Charles Gross'], 96732)
-        self.assertEqual(publisher_counts['Monica Gerson'], 82380)
+        self.assertEqual(publisher_counts['Benzinga Newsdesk'], 41)
+        self.assertEqual(publisher_counts['Lisa Levin'], 28)
+        self.assertEqual(publisher_counts['Vick Meyer'], 11)
+        self.assertEqual(publisher_counts['Wayne Duggan'], 3)
+        self.assertEqual(publisher_counts['Tyree Gorges'], 2)
+        self.assertEqual(publisher_counts['Joel Elconin'], 1)
+
+        # Check publish date counts
+        date_counts.index = pd.to_datetime(date_counts.index)
+        self.assertEqual(date_counts['2020-05-22'], 7)
+        self.assertEqual(date_counts['2020-06-05'], 1)
+        self.assertEqual(date_counts['2020-06-03'], 1)
+        self.assertEqual(date_counts['2020-05-26'], 1)
+
+    @patch('src.financial_news_analysis.pd.read_csv')
+    def test_descriptive_statistics_mock(self, mock_read_csv):
+        """Test descriptive_statistics method"""
+        # Mock pd.read_csv with the sample data
+        mock_read_csv.return_value = sample_data
+        fns = FinancialNewsAnalysis(None)
+        headline_stats, publisher_counts, date_counts = \
+            fns.descriptive_statistics()
+
+        # Assertions based on the sample data
+        self.assertAlmostEqual(int(headline_stats['count']), 3)
+        self.assertAlmostEqual(round(headline_stats['mean'], 2), 36.67)
+        self.assertAlmostEqual(round(headline_stats['std'], 2), 6.81)
+        self.assertEqual(headline_stats['min'], 29)
+        self.assertEqual(int(headline_stats['max']), 42)
+
+        # Assert publisher counts based on sample data
+        self.assertEqual(publisher_counts['Benzinga Insights'], 2)
+        self.assertEqual(publisher_counts['Lisa Levin'], 1)
+
+        date_counts.index = pd.to_datetime(date_counts.index)
+        self.assertEqual(date_counts['2020-06-05'], 1)
+        self.assertEqual(date_counts['2020-06-03'], 1)
+        self.assertEqual(date_counts['2020-05-26'], 1)
 
     def test_invalid_data_path(self):
         """Test handling of invalid data path"""
