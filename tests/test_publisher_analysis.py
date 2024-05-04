@@ -12,6 +12,7 @@ import src
 
 MODULE_DOC = src.publisher_analysis.__doc__
 
+
 def check_docstring(func):
     """
     Ensures the provided function has a docstring.
