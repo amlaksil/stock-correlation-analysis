@@ -10,6 +10,7 @@ import inspect
 import pandas as pd
 import pycodestyle
 from src.time_series_analysis import TimeSeriesAnalysis
+from tests.test_publisher_analysis import check_docstring
 import src
 MODULE_DOC = src.time_series_analysis.__doc__
 
@@ -52,15 +53,7 @@ class TestTimeSeriesAnalysisDocs(unittest.TestCase):
         """
         for func in self.base_funcs:
             with self.subTest(function=func):
-                self.assertIsNot(
-                    func[1].__doc__,
-                    None,
-                    f"{func[0]} method needs a docstring"
-                )
-                self.assertTrue(
-                    len(func[1].__doc__) > 1,
-                    f"{func[0]} method needs a docstring"
-                )
+                check_docstring(func[1])
 
 
 class TestFinancialNewsAnalysis(unittest.TestCase):
