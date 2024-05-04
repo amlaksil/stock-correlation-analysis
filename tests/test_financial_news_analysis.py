@@ -10,7 +10,7 @@ from unittest.mock import patch
 import unittest
 import inspect
 import pandas as pd
-import pep8 as pycodestyle
+import pycodestyle
 from src.financial_news_analysis import FinancialNewsAnalysis
 import src
 MODULE_DOC = src.financial_news_analysis.__doc__
